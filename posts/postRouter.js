@@ -14,10 +14,8 @@ router.get('/', (req, res) => {  // √
   });
 });
 
-router.get('/:id', (req, res) => {  // broken  & needs:  validatePostId
-  const {id} = req.params; 
-
-  db.getById(id)
+router.get('/:id', (req, res) => {  // broken, correct getById  & needs:  validatePostId
+  db.getById(req.params.id)
   .then(posts => {
     if(posts.length > 0) {
       res.status(200).json(posts)
@@ -81,7 +79,7 @@ router.put('/:id', (req, res) => {   // broken &  needs: validatePostId
 });
 
 
-// custom middleware
+// custom middleware  √√
 
 function validatePostId(req, res, next) {
   const {id} = req.params;
