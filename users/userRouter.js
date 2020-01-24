@@ -1,9 +1,25 @@
 const express = require('express');
-
+const db = require('./userDb.js'); 
 const router = express.Router();
 
 router.post('/', (req, res) => {
-  // do your magic!
+  const User = req.body; 
+  db.insert(User)
+  .then(users => {
+    if(users) {
+      res.status(201).json(users);
+    } else {
+      res.status(400).json({
+        message: 'Please provide name of user.'
+      });
+    }
+  })
+  .catch(error => {
+    console.log(error)
+    res.status(500).json({
+      message: ' There was an error while saving the user to the database.'
+    });
+  });
 });
 
 router.post('/:id/posts', (req, res) => {
